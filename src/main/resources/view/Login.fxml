@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="250.0" maxWidth="350.0" minHeight="250.0" minWidth="350.0" prefHeight="250.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.tool.normal.controller.LoginController">
+   <children>
+      <Button defaultButton="true" layoutX="89.0" layoutY="177.0" mnemonicParsing="false" onAction="#login" text="login" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="100.0" />
+      <Button layoutX="222.0" layoutY="184.0" mnemonicParsing="false" onAction="#reset" text="Reset" AnchorPane.bottomAnchor="40.0" AnchorPane.rightAnchor="100.0" />
+      <Text fill="#1970d3" layoutX="118.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome" AnchorPane.bottomAnchor="200.0" AnchorPane.topAnchor="25.0">
+         <font>
+            <Font size="24.0" />
+         </font></Text>
+      <Pane layoutX="49.0" layoutY="71.0" prefHeight="44.0" prefWidth="252.0" AnchorPane.bottomAnchor="140.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+         <children>
+            <Label layoutY="13.0" text="Username:" />
+            <TextField fx:id="usernameField" layoutX="90.0" layoutY="8.0" prefHeight="28.0" prefWidth="160.0" />
+         </children>
+      </Pane>
+      <Pane layoutX="55.0" layoutY="125.0" prefHeight="44.0" prefWidth="245.0" AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+         <children>
+            <Label layoutY="13.0" text="Password:" />
+            <PasswordField fx:id="passwordField" layoutX="90.0" layoutY="8.0" prefHeight="28.0" prefWidth="160.0" />
+         </children>
+      </Pane>
+      <Text fx:id="usernameMsg" layoutX="140.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="loginMsg" layoutX="140.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+   </children>
+</AnchorPane>
