@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="250.0" maxWidth="350.0" minHeight="250.0" minWidth="350.0" prefHeight="250.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.tool.normal.controller.LoginController">
+<AnchorPane maxHeight="250.0" maxWidth="350.0" minHeight="250.0" minWidth="350.0" prefHeight="250.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.box.controller.LoginController">
    <children>
       <Button defaultButton="true" layoutX="89.0" layoutY="177.0" mnemonicParsing="false" onAction="#login" text="login" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="100.0" />
       <Button layoutX="222.0" layoutY="184.0" mnemonicParsing="false" onAction="#reset" text="Reset" AnchorPane.bottomAnchor="40.0" AnchorPane.rightAnchor="100.0" />

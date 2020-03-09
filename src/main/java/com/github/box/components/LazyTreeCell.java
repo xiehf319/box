@@ -1,4 +1,4 @@
-package com.github.tool.normal.components;
+package com.github.box.components;
 
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeView;

@@ -1,4 +1,4 @@
-package com.github.tool.normal;
+package com.github.box;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

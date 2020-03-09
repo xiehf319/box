@@ -1,0 +1,33 @@
+{
+  "id": 0,
+  "name": "全部",
+  "type": "MENU",
+  "desc": "欢迎使用工具箱--by 谢海凡",
+  "path": "/view/component/Welcome.fxml",
+  "children": [
+    {
+      "id": 1,
+      "name": "工具集",
+      "type": "MENU",
+      "desc": "工具集",
+      "children": [
+        {
+          "id": 11,
+          "name": "JSON format",
+          "type": "",
+          "desc": "JSON格式化",
+          "path": "/view/tool/JsonFormatTool.fxml",
+          "children": []
+        },
+        {
+          "id": 12,
+          "name": "MD5",
+          "type": "MENU",
+          "desc": "MD5加解密",
+          "path": "/view/tool/Md5.fxml",
+          "children": []
+        }
+      ]
+    }
+  ]
+}

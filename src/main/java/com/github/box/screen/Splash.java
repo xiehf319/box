@@ -1,4 +1,4 @@
-package com.github.tool.normal.screen;
+package com.github.box.screen;
 
 
 import de.felixroske.jfxsupport.SplashScreen;

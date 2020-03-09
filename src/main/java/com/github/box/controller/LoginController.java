@@ -1,14 +1,15 @@
-package com.github.tool.normal.controller;
+package com.github.box.controller;
 
-import com.github.tool.normal.NormalApplication;
-import com.github.tool.normal.view.HomeView;
+import com.github.box.view.HomeView;
+import com.github.box.BoxApplication;
 import de.felixroske.jfxsupport.FXMLController;
 import javafx.beans.Observable;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.beans.value.WeakChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
@@ -36,8 +37,8 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        usernameField.textProperty().addListener(this::usernameChange);
-        usernameField.focusedProperty().addListener(this::usernameFocusChange);
+        usernameField.textProperty().addListener(new WeakChangeListener<>(this::usernameChange));
+        usernameField.focusedProperty().addListener(new WeakChangeListener<>(this::usernameFocusChange));
     }
 
     private void usernameFocusChange(Observable observable, Boolean oldValue, Boolean newValue) {
@@ -52,14 +53,15 @@ public class LoginController implements Initializable {
         }
     }
 
-    private void usernameChange(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+    private void usernameChange(ObservableValue observable, String oldValue, String newValue) {
+
     }
 
     @FXML
     public void login(ActionEvent event) {
-        Stage stage = NormalApplication.getStage();
+        Stage stage = BoxApplication.getStage();
         stage.close();
-        NormalApplication.showView(HomeView.class);
+        BoxApplication.showView(HomeView.class);
     }
 
     @FXML
@@ -67,4 +69,7 @@ public class LoginController implements Initializable {
         usernameField.clear();
         passwordField.clear();
     }
+
+
+
 }

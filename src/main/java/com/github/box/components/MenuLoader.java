@@ -1,6 +1,6 @@
-package com.github.tool.normal.components;
+package com.github.box.components;
 
-import com.github.tool.normal.model.Menu;
+import com.github.box.model.Menu;
 import javafx.scene.control.TreeItem;
 
 import java.util.List;

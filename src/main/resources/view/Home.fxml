@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="homePane" maxHeight="640.0" maxWidth="800.0" minHeight="640.0" minWidth="800.0" prefHeight="640.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.tool.normal.controller.HomeController">
+<AnchorPane fx:id="homePane" maxHeight="640.0" maxWidth="800.0" minHeight="640.0" minWidth="800.0" prefHeight="640.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.box.controller.HomeController">
    <children>
       <MenuBar fx:id="menuBar" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>

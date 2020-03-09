@@ -1,6 +1,5 @@
-package com.github.tool.normal.components;
+package com.github.box.components;
 
-import com.github.tool.normal.components.LoadingTreeItem;
 import javafx.beans.value.ChangeListener;
 import javafx.event.EventHandler;
 import javafx.scene.control.TreeItem;

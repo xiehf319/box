@@ -1,11 +1,7 @@
-package com.github.tool.normal.controller;
+package com.github.box.controller;
 
-import com.github.tool.normal.NormalApplication;
-import com.github.tool.normal.model.Menu;
-import com.github.tool.normal.service.MenuService;
-import javafx.beans.Observable;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import com.github.box.model.Menu;
+import com.github.box.service.MenuService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -13,26 +9,24 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.TreeCell;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
-import java.io.IOError;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
 @Component
-public class HomeController implements Initializable {
+public class HomeController extends BaseController implements Initializable {
 
     @Autowired
     private MenuService menuService;
@@ -54,16 +48,22 @@ public class HomeController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        NormalApplication.getStage().setTitle("主页");
+
         this.adapt();
         this.initMenu();
     }
 
     public void initMenu() {
-        Menu root = new Menu(0, "ALL");
-        List<Menu> menuList = menuService.getMenuList();
-        root.setChildren(menuList);
-        TreeItem<Menu> node = createNode(root);
+        Menu menu = menuService.getMenuTree();
+        if (menu == null) {
+            setTitle("");
+            return;
+        }
+        // 初始化
+        route(menu);
+
+        TreeItem<Menu> node = createNode(menu);
+        menuTreeView.setRoot(node);
         node.setExpanded(true);
 
         // 自定义显示的值
@@ -87,20 +87,19 @@ public class HomeController implements Initializable {
                 };
             }
         });
-        menuTreeView.setRoot(node);
 
         // add listener to trigger refresh right information
         menuTreeView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 Menu value = newValue.getValue();
-                route(value.getName(), value.getUrl());
+                route(value);
             }
         });
     }
 
 
     private TreeItem<Menu> createNode(Menu menu) {
-        return new TreeItem<Menu>(menu) {
+        TreeItem<Menu> treeItem = new TreeItem<Menu>(menu) {
             private boolean isLeaf;
             private boolean isFirstTimeChildren = true;
             private boolean isFirstTimeLeaf = true;
@@ -139,6 +138,8 @@ public class HomeController implements Initializable {
                 return FXCollections.emptyObservableList();
             }
         };
+        treeItem.setExpanded(true);
+        return treeItem;
     }
 
     public void adapt() {
@@ -152,20 +153,20 @@ public class HomeController implements Initializable {
     /**
      * 路由到对应页面
      *
-     * @param name
-     * @param path
+     * @param menu
      */
-    private void route(String name, String path) {
-        if (path == null) {
+    private void route(Menu menu) {
+        if (menu == null) {
             return;
         }
         // 标题命名
-        Stage stage = NormalApplication.getStage();
-        stage.setTitle(name);
-
-        FilteredList<Node> mainContentList = rightPane.getChildren().filtered(node -> node.getId().equals("mainContent"));
+        setTitle(menu.getDesc());
+        if (StringUtils.isEmpty(menu.getPath())) {
+            return;
+        }
+        FilteredList<Node> mainContentList = rightPane.getChildren().filtered(node -> "mainContent".equals(node.getId()));
         Node mainContent = mainContentList.get(0);
-        URL url = getClass().getResource(path);
+        URL url = getClass().getResource(menu.getPath());
         FXMLLoader loader = new FXMLLoader(url);
         try {
             loader.setRoot(mainContent);

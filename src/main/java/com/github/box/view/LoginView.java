@@ -1,4 +1,4 @@
-package com.github.tool.normal.view;
+package com.github.box.view;
 
 import de.felixroske.jfxsupport.AbstractFxmlView;
 import de.felixroske.jfxsupport.FXMLView;

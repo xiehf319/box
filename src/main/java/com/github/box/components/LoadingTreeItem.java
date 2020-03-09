@@ -1,4 +1,4 @@
-package com.github.tool.normal.components;
+package com.github.box.components;
 
 import javafx.application.Platform;
 import javafx.collections.ObservableList;

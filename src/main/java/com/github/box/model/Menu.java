@@ -1,6 +1,5 @@
-package com.github.tool.normal.model;
+package com.github.box.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,7 +13,11 @@ public class Menu {
 
     private String name;
 
-    private String url;
+    private String path;
+
+    private String type;
+
+    private String desc;
 
     private List<Menu> children;
 
@@ -23,9 +26,9 @@ public class Menu {
         this.name = name;
     }
 
-    public Menu(Integer id, String name, String url) {
+    public Menu(Integer id, String name, String path) {
         this.id = id;
         this.name = name;
-        this.url = url;
+        this.path = path;
     }
 }
