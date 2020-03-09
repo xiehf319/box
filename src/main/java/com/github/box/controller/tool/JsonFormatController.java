@@ -6,13 +6,11 @@ import com.alibaba.fastjson.JSONValidator;
 import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import de.felixroske.jfxsupport.FXMLController;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TreeView;
+import javafx.scene.control.*;
 import org.springframework.util.StringUtils;
 
 import java.net.URL;
@@ -24,7 +22,13 @@ public class JsonFormatController implements Initializable {
     private TextArea rawJson;
 
     @FXML
-    private TreeView<String> result;
+    private TreeTableView<String> treeTableView;
+
+    @FXML
+    private TreeTableColumn<String, Object> treeTableKey;
+
+    @FXML
+    private TreeTableColumn<String, Object> treeTableValue;
 
     @FXML
     private Button format;
@@ -48,24 +52,38 @@ public class JsonFormatController implements Initializable {
             errMsg.setText("json 不能为空");
             return;
         }
+        String result = validJson(s);
+        if (result != null) {
+            rawJson.textProperty().set(result);
+        }
+    }
+
+    private String validJson(String s) {
         JSONValidator validator = JSONValidator.from(s);
         try {
             boolean valid = validator.validate();
             if (!valid) {
                 errMsg.setText("json格式错误");
-                return;
+                return null;
             }
             JSONObject jsonObject = JSONObject.parseObject(s);
             String result = JSON.toJSONString(jsonObject, SerializeConfig.globalInstance, SerializerFeature.PrettyFormat);
-            rawJson.textProperty().setValue(result);
         } catch (Exception e) {
             errMsg.setText("json格式发生错误");
         }
-
+        return null;
     }
 
     @FXML
     private void format(ActionEvent event) {
-
+        String s = rawJson.textProperty().get();
+        if (StringUtils.isEmpty(s)) {
+            errMsg.setText("json 不能为空");
+            return;
+        }
+        String result = validJson(s);
+        if (result != null) {
+            JSONObject jsonObject = JSONObject.parseObject(result);
+        }
     }
 }
