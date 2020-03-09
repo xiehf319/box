@@ -1,5 +1,5 @@
 .root {
-    -fx-background-image: url("../image/login_bg.jpg");
+    -fx-background-image: url("../image/登录页背景.png");
     -fx-background-repeat: no-repeat;
     -fx-background-size: 100% 100%;
 }

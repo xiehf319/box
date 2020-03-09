@@ -2,6 +2,9 @@ package com.github.box.controller;
 
 import com.github.box.model.Menu;
 import com.github.box.service.MenuService;
+import de.felixroske.jfxsupport.FXMLController;
+import javafx.application.Platform;
+import javafx.beans.value.WeakChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -25,7 +28,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-@Component
+@FXMLController
 public class HomeController extends BaseController implements Initializable {
 
     @Autowired
@@ -45,6 +48,9 @@ public class HomeController extends BaseController implements Initializable {
 
     @FXML
     private TreeView<Menu> menuTreeView;
+
+    @FXML
+    private Pane mainContent;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -89,12 +95,12 @@ public class HomeController extends BaseController implements Initializable {
         });
 
         // add listener to trigger refresh right information
-        menuTreeView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        menuTreeView.getSelectionModel().selectedItemProperty().addListener(new WeakChangeListener<>((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 Menu value = newValue.getValue();
-                route(value);
+                Platform.runLater(() -> route(value));
             }
-        });
+        }));
     }
 
 
@@ -143,11 +149,14 @@ public class HomeController extends BaseController implements Initializable {
     }
 
     public void adapt() {
-        menuBar.prefWidthProperty().bind(homePane.widthProperty());
-        leftPane.prefHeightProperty().bind(homePane.heightProperty());
+        menuBar.prefWidthProperty().bind(homePane.heightProperty());
+        leftPane.prefHeightProperty().bind(homePane.widthProperty());
         rightPane.prefHeightProperty().bind(homePane.heightProperty());
         menuTreeView.prefWidthProperty().bind(leftPane.widthProperty());
-        menuTreeView.prefHeightProperty().bind(leftPane.prefHeightProperty());
+        menuTreeView.prefHeightProperty().bind(leftPane.heightProperty());
+
+        mainContent.prefHeightProperty().bind(rightPane.heightProperty());
+        mainContent.prefWidthProperty().bind(rightPane.widthProperty());
     }
 
     /**
@@ -164,8 +173,8 @@ public class HomeController extends BaseController implements Initializable {
         if (StringUtils.isEmpty(menu.getPath())) {
             return;
         }
-        FilteredList<Node> mainContentList = rightPane.getChildren().filtered(node -> "mainContent".equals(node.getId()));
-        Node mainContent = mainContentList.get(0);
+        // 清除原来的子节点
+        mainContent.getChildren().clear();
         URL url = getClass().getResource(menu.getPath());
         FXMLLoader loader = new FXMLLoader(url);
         try {
