@@ -40,21 +40,4 @@ public abstract class BaseController {
         return bounds.getHeight();
     }
 
-    public void heightListener() {
-        BoxApplication.getStage().widthProperty().addListener(new WeakChangeListener<>(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                adapt();
-            }
-        }));
-        BoxApplication.getStage().heightProperty().addListener(new WeakChangeListener<>(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                adapt();
-            }
-        }));
-    }
-
-    public abstract void adapt();
-
 }

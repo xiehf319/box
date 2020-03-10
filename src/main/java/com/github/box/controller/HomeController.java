@@ -150,9 +150,9 @@ public class HomeController extends BaseController implements Initializable {
     }
 
     private void initSize() {
-// 定义窗口大小
+        // 定义窗口大小
         Screen primary = Screen.getPrimary();
-        Rectangle2D bounds = primary.getBounds();
+        Rectangle2D bounds = primary.getVisualBounds();
         Stage stage = BoxApplication.getStage();
         stage.setResizable(true);
         double width = bounds.getWidth();
@@ -168,6 +168,7 @@ public class HomeController extends BaseController implements Initializable {
 
         rightPane.setMinSize(stage.getMinWidth() - 160, stage.getMinHeight() - 30);
         rightPane.setPrefWidth(stage.getWidth() - 160);
+        rightPane.setMaxWidth(stage.getWidth() - 160);
         rightPane.setPrefHeight(stage.getHeight() - 30);
 
         mainContent.prefWidthProperty().bind(rightPane.widthProperty());
@@ -182,11 +183,6 @@ public class HomeController extends BaseController implements Initializable {
 
         menuTreeView.prefWidthProperty().bind(leftPane.widthProperty());
         menuTreeView.prefHeightProperty().bind(leftPane.heightProperty());
-
-    }
-
-    @Override
-    public void adapt() {
 
     }
 

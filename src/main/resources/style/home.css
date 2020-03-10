@@ -8,3 +8,7 @@
     -fx-pref-width: 100%;
     -fx-pref-height: 30px;
 }
+
+#errMsg {
+    -fx-text-fill: #ff0000;
+}

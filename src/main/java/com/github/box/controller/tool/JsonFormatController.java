@@ -7,6 +7,8 @@ import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.github.box.controller.BaseController;
 import de.felixroske.jfxsupport.FXMLController;
+import javafx.application.Platform;
+import javafx.beans.value.WeakChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.web.WebView;
 import org.springframework.util.StringUtils;
 
@@ -23,6 +26,10 @@ import java.util.ResourceBundle;
 
 @FXMLController
 public class JsonFormatController extends BaseController implements Initializable {
+
+    @FXML
+    private Pane jsonFormat;
+
     @FXML
     private TextArea rawJson;
 
@@ -46,9 +53,20 @@ public class JsonFormatController extends BaseController implements Initializabl
 
     @FXML
     private AnchorPane rightPane;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        adapt();
+        Platform.runLater(() -> {
+            adaptWidth();
+            adaptHeight();
+        });
+
+        jsonFormat.widthProperty().addListener(new WeakChangeListener<>((observable, oldValue, newValue) -> {
+            adaptWidth();
+        }));
+        jsonFormat.heightProperty().addListener(new WeakChangeListener<>((observable, oldValue, newValue) -> {
+            adaptHeight();
+        }));
     }
 
     @FXML
@@ -94,35 +112,18 @@ public class JsonFormatController extends BaseController implements Initializabl
         }
     }
 
-    @Override
-    public void adapt() {
-        double stageWidth = getStageWidth();
-        double stageHeight = getStageHeight();
-        leftPane.setPrefSize((stageWidth - 160) * 0.6, stageHeight - 30);
-        leftPane.setMaxSize((stageWidth - 160) * 0.6, stageHeight - 30);
-        leftPane.setMinSize((stageWidth - 160) * 0.6, stageHeight - 30);
+    private void adaptWidth() {
+        leftPane.setPrefWidth(jsonFormat.getWidth() * 0.5);
+        middlePane.setPrefWidth(jsonFormat.getWidth() * 0.1);
+        rightPane.setPrefWidth(jsonFormat.getWidth() * 0.35);
 
-        middlePane.setPrefSize(80, stageHeight - 30);
-        preview.setPrefSize(80, 20);
-        rightPane.setPrefSize(stageWidth - 160 - leftPane.getWidth() - middlePane.getWidth(), stageHeight - 30);
+        AnchorPane.setLeftAnchor(middlePane, leftPane.getPrefWidth());
+        AnchorPane.setLeftAnchor(rightPane, leftPane.getPrefWidth() + middlePane.getPrefWidth());
+    }
 
-        AnchorPane.setBottomAnchor(leftPane, 0D);
-        AnchorPane.setTopAnchor(leftPane, 0D);
-        AnchorPane.setLeftAnchor(leftPane, 0D);
-
-        AnchorPane.setBottomAnchor(middlePane, 0D);
-        AnchorPane.setTopAnchor(middlePane, 0D);
-        AnchorPane.setLeftAnchor(middlePane, leftPane.getWidth());
-        AnchorPane.setRightAnchor(middlePane, rightPane.getWidth());
-
-        AnchorPane.setBottomAnchor(rightPane, 0D);
-        AnchorPane.setTopAnchor(rightPane, 0D);
-        AnchorPane.setLeftAnchor(rightPane, leftPane.getWidth() + middlePane.getWidth());
-        AnchorPane.setRightAnchor(rightPane, 0D);
-
-        AnchorPane.setTopAnchor(preview, middlePane.getWidth() / 2 + 10);
-        AnchorPane.setBottomAnchor(preview, middlePane.getWidth() / 2 + 10);
-        AnchorPane.setLeftAnchor(preview, 0D);
-        AnchorPane.setRightAnchor(preview, 0D);
+    private void adaptHeight() {
+        leftPane.setPrefHeight(jsonFormat.getPrefHeight());
+        middlePane.setPrefHeight(jsonFormat.getPrefHeight());
+        rightPane.setPrefHeight(jsonFormat.getPrefHeight());
     }
 }
