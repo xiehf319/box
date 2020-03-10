@@ -152,7 +152,7 @@ public class HomeController extends BaseController implements Initializable {
     private void initSize() {
         // 定义窗口大小
         Screen primary = Screen.getPrimary();
-        Rectangle2D bounds = primary.getVisualBounds();
+        Rectangle2D bounds = primary.getBounds();
         Stage stage = BoxApplication.getStage();
         stage.setResizable(true);
         double width = bounds.getWidth();
