@@ -39,6 +39,8 @@ public class LoginController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         usernameField.textProperty().addListener(new WeakChangeListener<>(this::usernameChange));
         usernameField.focusedProperty().addListener(new WeakChangeListener<>(this::usernameFocusChange));
+
+        BoxApplication.getStage().setResizable(false);
     }
 
     private void usernameFocusChange(Observable observable, Boolean oldValue, Boolean newValue) {

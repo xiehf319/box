@@ -1,5 +1,6 @@
 package com.github.box.controller;
 
+import com.github.box.BoxApplication;
 import com.github.box.model.Menu;
 import com.github.box.service.MenuService;
 import de.felixroske.jfxsupport.FXMLController;
@@ -7,19 +8,19 @@ import javafx.application.Platform;
 import javafx.beans.value.WeakChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.layout.Pane;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -55,7 +56,7 @@ public class HomeController extends BaseController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        this.adapt();
+        this.initSize();
         this.initMenu();
     }
 
@@ -148,15 +149,45 @@ public class HomeController extends BaseController implements Initializable {
         return treeItem;
     }
 
-    public void adapt() {
-        menuBar.prefWidthProperty().bind(homePane.heightProperty());
-        leftPane.prefHeightProperty().bind(homePane.widthProperty());
-        rightPane.prefHeightProperty().bind(homePane.heightProperty());
+    private void initSize() {
+// 定义窗口大小
+        Screen primary = Screen.getPrimary();
+        Rectangle2D bounds = primary.getBounds();
+        Stage stage = BoxApplication.getStage();
+        stage.setResizable(true);
+        double width = bounds.getWidth();
+        stage.setWidth(width * 0.8);
+        double height = bounds.getHeight();
+        stage.setHeight(height * 0.8);
+        stage.setX(bounds.getMinX() + width * 0.1);
+        stage.setY(bounds.getMinY() + height * 0.1);
+        stage.setMinWidth(900);
+        stage.setMinHeight(720);
+        stage.setMaxWidth(width);
+        stage.setMaxHeight(height);
+
+        rightPane.setMinSize(stage.getMinWidth() - 160, stage.getMinHeight() - 30);
+        rightPane.setPrefWidth(stage.getWidth() - 160);
+        rightPane.setPrefHeight(stage.getHeight() - 30);
+
+        mainContent.prefWidthProperty().bind(rightPane.widthProperty());
+        mainContent.prefHeightProperty().bind(rightPane.heightProperty());
+
+        leftPane.setMinSize(160, stage.getMinHeight() - 30);
+        leftPane.setPrefHeight(stage.getMinHeight() - 30);
+        leftPane.setPrefWidth(160);
+
+        menuBar.setPrefHeight(30);
+        menuBar.prefWidthProperty().bind(stage.widthProperty());
+
         menuTreeView.prefWidthProperty().bind(leftPane.widthProperty());
         menuTreeView.prefHeightProperty().bind(leftPane.heightProperty());
 
-        mainContent.prefHeightProperty().bind(rightPane.heightProperty());
-        mainContent.prefWidthProperty().bind(rightPane.widthProperty());
+    }
+
+    @Override
+    public void adapt() {
+
     }
 
     /**

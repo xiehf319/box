@@ -1,6 +1,12 @@
 package com.github.box.controller;
 
 import com.github.box.BoxApplication;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.beans.value.WeakChangeListener;
+import javafx.geometry.Rectangle2D;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 
 /**
  * 类描述:
@@ -14,4 +20,41 @@ public abstract class BaseController {
     public void setTitle(String name) {
         BoxApplication.getStage().setTitle(name);
     }
+
+    public double getScreenWidth() {
+        Screen primary = Screen.getPrimary();
+        Rectangle2D bounds = primary.getBounds();
+        return bounds.getWidth();
+    }
+    public double getStageWidth() {
+        return BoxApplication.getStage().getWidth();
+    }
+
+    public double getStageHeight() {
+        return BoxApplication.getStage().getHeight();
+    }
+
+    public double getScreenHeight() {
+        Screen primary = Screen.getPrimary();
+        Rectangle2D bounds = primary.getBounds();
+        return bounds.getHeight();
+    }
+
+    public void heightListener() {
+        BoxApplication.getStage().widthProperty().addListener(new WeakChangeListener<>(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                adapt();
+            }
+        }));
+        BoxApplication.getStage().heightProperty().addListener(new WeakChangeListener<>(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                adapt();
+            }
+        }));
+    }
+
+    public abstract void adapt();
+
 }
