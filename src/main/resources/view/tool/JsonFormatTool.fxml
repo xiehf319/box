@@ -34,7 +34,7 @@
         </AnchorPane>
         <AnchorPane fx:id="rightPane">
             <children>
-                <WebView fx:id="result" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="10.0"
+                <TreeView fx:id="jsonFormatResultView" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="10.0"
                          AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="40.0"/>
             </children>
         </AnchorPane>

@@ -1,7 +1,7 @@
 package com.github.box.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.github.box.model.Menu;
+import com.github.box.model.MenuTree;
 import com.github.box.util.FileUtil;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ public class MenuService {
      *
      * @return
      */
-    public Menu getMenuTree() {
+    public MenuTree getMenuTree() {
         try {
             URL resource = this.getClass().getResource("/data/menu.json");
             String fileName = resource.getFile();
@@ -26,7 +26,7 @@ public class MenuService {
             if (json == null) {
                 return null;
             }
-            Menu menu = JSONObject.parseObject(json, Menu.class);
+            MenuTree menu = JSONObject.parseObject(json, MenuTree.class);
             return menu;
         } catch (Exception e) {
             e.printStackTrace();

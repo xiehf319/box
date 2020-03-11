@@ -3,11 +3,12 @@ package com.github.box.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class Menu {
+public class MenuTree{
 
     private Integer id;
 
@@ -19,14 +20,14 @@ public class Menu {
 
     private String desc;
 
-    private List<Menu> children;
+    private List<MenuTree> children = new ArrayList<>();
 
-    public Menu(Integer id, String name) {
+    public MenuTree(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Menu(Integer id, String name, String path) {
+    public MenuTree(Integer id, String name, String path) {
         this.id = id;
         this.name = name;
         this.path = path;

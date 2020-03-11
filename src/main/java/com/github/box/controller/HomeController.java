@@ -1,7 +1,7 @@
 package com.github.box.controller;
 
 import com.github.box.BoxApplication;
-import com.github.box.model.Menu;
+import com.github.box.model.MenuTree;
 import com.github.box.service.MenuService;
 import de.felixroske.jfxsupport.FXMLController;
 import javafx.application.Platform;
@@ -48,7 +48,7 @@ public class HomeController extends BaseController implements Initializable {
     private Pane rightPane;
 
     @FXML
-    private TreeView<Menu> menuTreeView;
+    private TreeView<MenuTree> menuTreeView;
 
     @FXML
     private Pane mainContent;
@@ -61,7 +61,7 @@ public class HomeController extends BaseController implements Initializable {
     }
 
     public void initMenu() {
-        Menu menu = menuService.getMenuTree();
+        MenuTree menu = menuService.getMenuTree();
         if (menu == null) {
             setTitle("");
             return;
@@ -69,18 +69,18 @@ public class HomeController extends BaseController implements Initializable {
         // 初始化
         route(menu);
 
-        TreeItem<Menu> node = createNode(menu);
+        TreeItem<MenuTree> node = createNode(menu);
         menuTreeView.setRoot(node);
         node.setExpanded(true);
 
         // 自定义显示的值
-        menuTreeView.setCellFactory(new Callback<TreeView<Menu>, TreeCell<Menu>>() {
+        menuTreeView.setCellFactory(new Callback<TreeView<MenuTree>, TreeCell<MenuTree>>() {
 
             @Override
-            public TreeCell<Menu> call(TreeView<Menu> p) {
-                return new TreeCell<Menu>() {
+            public TreeCell<MenuTree> call(TreeView<MenuTree> p) {
+                return new TreeCell<MenuTree>() {
                     @Override
-                    protected void updateItem(Menu item, boolean empty) {
+                    protected void updateItem(MenuTree item, boolean empty) {
                         super.updateItem(item, empty);
                         if (empty || item == null) {
                             setText(null);
@@ -98,21 +98,21 @@ public class HomeController extends BaseController implements Initializable {
         // add listener to trigger refresh right information
         menuTreeView.getSelectionModel().selectedItemProperty().addListener(new WeakChangeListener<>((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                Menu value = newValue.getValue();
+                MenuTree value = newValue.getValue();
                 Platform.runLater(() -> route(value));
             }
         }));
     }
 
 
-    private TreeItem<Menu> createNode(Menu menu) {
-        TreeItem<Menu> treeItem = new TreeItem<Menu>(menu) {
+    private TreeItem<MenuTree> createNode(MenuTree menu) {
+        TreeItem<MenuTree> treeItem = new TreeItem<MenuTree>(menu) {
             private boolean isLeaf;
             private boolean isFirstTimeChildren = true;
             private boolean isFirstTimeLeaf = true;
 
             @Override
-            public ObservableList<TreeItem<Menu>> getChildren() {
+            public ObservableList<TreeItem<MenuTree>> getChildren() {
                 if (isFirstTimeChildren) {
                     isFirstTimeChildren = false;
                     super.getChildren().setAll(buildChildren(this));
@@ -124,19 +124,19 @@ public class HomeController extends BaseController implements Initializable {
             public boolean isLeaf() {
                 if (isFirstTimeLeaf) {
                     isFirstTimeLeaf = false;
-                    Menu m = getValue();
+                    MenuTree m = getValue();
                     isLeaf = CollectionUtils.isEmpty(m.getChildren());
                 }
                 return isLeaf;
             }
 
-            private ObservableList<TreeItem<Menu>> buildChildren(TreeItem<Menu> treeItem) {
-                Menu parent = treeItem.getValue();
+            private ObservableList<TreeItem<MenuTree>> buildChildren(TreeItem<MenuTree> treeItem) {
+                MenuTree parent = treeItem.getValue();
                 if (parent != null && !CollectionUtils.isEmpty(parent.getChildren())) {
-                    List<Menu> children = parent.getChildren();
+                    List<MenuTree> children = parent.getChildren();
                     if (children != null) {
-                        ObservableList<TreeItem<Menu>> childItems = FXCollections.observableArrayList();
-                        for (Menu child : children) {
+                        ObservableList<TreeItem<MenuTree>> childItems = FXCollections.observableArrayList();
+                        for (MenuTree child : children) {
                             childItems.add(createNode(child));
                         }
                         return childItems;
@@ -191,7 +191,7 @@ public class HomeController extends BaseController implements Initializable {
      *
      * @param menu
      */
-    private void route(Menu menu) {
+    private void route(MenuTree menu) {
         if (menu == null) {
             return;
         }
